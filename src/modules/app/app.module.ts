@@ -8,6 +8,8 @@ import configurations from '../../configurations/index';
 import { User } from '../user/models/user.model';
 import { AuthModule } from '../auth/auth.module';
 import { TokenModule } from '../token/token.module';
+import { WordsModule } from '../words/words.module';
+import { Words } from '../words/models/words.model';
 
 @Module({
   imports: [ConfigModule.forRoot({
@@ -26,12 +28,13 @@ import { TokenModule } from '../token/token.module';
         username: configService.get('db_user'),
         synchronize: true,
         autoLoadModels: true,
-        models:[User]
+        models:[User, Words]
       })
     }),
     UserModule,
     AuthModule,
-    TokenModule
+    TokenModule,
+    WordsModule
   ],
   controllers: [AppController],
   providers: [AppService],
