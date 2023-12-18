@@ -8,17 +8,25 @@ export class WordsService {
     constructor(@InjectModel(Words) private readonly wordsRepository: typeof Words) { }
     
     async createAsset(user, dto): Promise<CreateAssetResponse> {
-        const words = {
+        try{
+            const words = {
             user: user.id,
             name: dto.name,
             assetId: dto.assetId
+            }
+            await this.wordsRepository.create(words)
+            return words
+        } catch (err) {
+            throw new Error(err)
         }
-        await this.wordsRepository.create(words)
-        return words 
     }
 
     async deleteAsset(userId: number, assetId: string): Promise<boolean> {
-        await this.wordsRepository.destroy({ where: { id: assetId, user: userId } })
-        return true
+        try{
+            await this.wordsRepository.destroy({ where: { id: assetId, user: userId } })
+            return true
+        } catch (err) {
+            throw new Error(err)
+        }
     }
 }
